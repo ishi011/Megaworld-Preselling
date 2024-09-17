@@ -39,7 +39,6 @@ html::before {
   filter: blur(8px); /* Apply blur only to the background image */
   z-index: -1; /* Ensure it is behind the content */
 }
-
 html::after {
   content: "";
   position: fixed;
@@ -55,9 +54,6 @@ body {
   position: relative; /* Allows stacking context for content */
   z-index: 1; /* Ensures body content is above the blurred background */
   overflow: auto; /* Allows scrolling within the body content */
-}
-
-body {
   animation: fadeIn 1s ease-in-out;
 }
 
@@ -67,6 +63,54 @@ body {
   }
   to {
     opacity: 1;
+  }
+}
+#loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: white; /* Optional: semi-transparent background */
+  z-index: 9999; /* Ensure it sits above other content */
+}
+#loader .logo {
+  max-width: 200px; /* Adjust the size of the logo */
+  height: auto; /* Ensure height is auto to maintain aspect ratio */
+  margin-bottom: 10px; /* Space between logo and line loader */
+}
+#loader .line-loader {
+  min-width: 500px;
+  height: 5px;
+  background-color: #063c9c;
+  position: relative;
+  overflow: hidden;
+}
+#loader .line-loader::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background-color: #ffffff;
+  animation: load 1.5s linear infinite;
+  animation-fill-mode: forwards;
+}
+.fade-out {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+@keyframes load {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
   }
 }
 

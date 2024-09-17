@@ -63,16 +63,6 @@ article img {
   object-fit: contain;
 }
 
-/* #hero .right-content {
-  flex: 1;
-}
-
-#hero .googlemap {
-  width: 100%;
-  height: 400px;
-  margin-top: 20px;
-} */
-
 #hero .right-content {
   flex: 1;
   position: relative; /* Set position to relative */
@@ -188,6 +178,7 @@ article img {
   width: 100%;
   height: 100%;
   object-fit: contain;
+  animation: fadeIn 1s ease-in-out;
 }
 
 #_Slider .active {
@@ -215,6 +206,14 @@ article img {
   user-select: none;
 }
 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
 #_Slider .prev:hover,
 #_Slider .next:hover {
   background-color: rgba(0, 0, 0, 0.8);
