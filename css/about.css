@@ -1,0 +1,122 @@
+#about .about {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  text-align: center; /* Center align for mobile */
+}
+.container_bg {
+  background-color: white;
+  padding: 10px 20px;
+  border-radius: 20px;
+  box-shadow: 0 5px 10px rgba(30, 203, 233, 0.5); /* Blue shadow effect */
+}
+#about .col-left,
+#about .col-right {
+  width: 100%;
+  max-width: 100%; /* Full width on mobile */
+  margin-bottom: 20px; /* Adds space between columns */
+}
+
+#about .col-left {
+  order: 2; /* Keep the image last on mobile */
+}
+
+#about .col-right h1.section-title {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+#about .col-right p {
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+#about .col-left .about-img {
+  width: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 15px 20px rgba(30, 203, 233, 0.5); /* Increased shadow blur for better visibility */
+  margin-bottom: 20px; /* Add margin-bottom for spacing */
+}
+
+#about .col-left .about-img img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  display: block; /* Ensure image does not have extra space below */
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  #about .col-left .about-img {
+    box-shadow: 0 10px 15px rgba(30, 203, 233, 0.3); /* Adjust shadow for smaller screens */
+  }
+}
+
+@media (max-width: 480px) {
+  #about .col-left .about-img {
+    border-radius: 5px; /* Reduce border-radius on very small screens for better fit */
+  }
+}
+
+/* Tablet (min-width: 768px) */
+@media only screen and (min-width: 768px) {
+  #about .about {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    text-align: left; /* Align text to left for tablet */
+  }
+
+  #about .col-left,
+  #about .col-right {
+    width: 48%; /* Each column takes almost half the width */
+    margin-bottom: 0; /* Remove margin between columns */
+  }
+
+  #about .col-left {
+    order: 1; /* Image comes first on tablet and larger screens */
+  }
+
+  #about .col-right h1.section-title {
+    font-size: 2.5rem;
+    margin-bottom: 25px;
+  }
+
+  #about .col-right p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+  }
+
+  #about .col-left .about-img img {
+    height: auto;
+  }
+}
+
+/* Desktop (min-width: 1024px) */
+@media only screen and (min-width: 1024px) {
+  #about .about {
+    justify-content: space-between;
+    align-items: center;
+    padding: 40px;
+  }
+
+  #about .col-left,
+  #about .col-right {
+    width: 45%;
+  }
+
+  #about .col-right h1.section-title {
+    font-size: 3rem;
+    margin-bottom: 30px;
+  }
+
+  #about .col-right p {
+    font-size: 1.4rem;
+    margin-bottom: 40px;
+  }
+}

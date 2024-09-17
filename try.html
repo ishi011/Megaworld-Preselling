@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Responsive Multi-Slider</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body,
+      html {
+        height: 100%;
+      }
+
+      .slider-container {
+        position: relative;
+        max-width: 100%;
+        height: 500px;
+        overflow: hidden;
+        margin-bottom: 50px;
+      }
+
+      .blurred-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+        filter: blur(20px);
+        z-index: 0;
+      }
+
+      .slider {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1;
+      }
+
+      .slide {
+        display: none;
+        width: 100%;
+        height: 100%;
+      }
+
+      .slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+
+      .active {
+        display: block;
+      }
+
+      .navigation {
+        position: absolute;
+        width: 100%;
+        top: 50%;
+        display: flex;
+        justify-content: space-between;
+        transform: translateY(-50%);
+        z-index: 2;
+      }
+
+      button.prev,
+      button.next {
+        background-color: rgba(0, 0, 0, 0.5);
+        border: none;
+        padding: 10px;
+        color: white;
+        font-size: 18px;
+        cursor: pointer;
+      }
+
+      button.prev:hover,
+      button.next:hover {
+        background-color: rgba(0, 0, 0, 0.8);
+      }
+
+      .dots-container {
+        position: absolute;
+        bottom: 20px;
+        width: 100%;
+        text-align: center;
+        z-index: 2;
+      }
+
+      .dot {
+        height: 15px;
+        width: 15px;
+        margin: 0 5px;
+        background-color: #bbb;
+        border-radius: 50%;
+        display: inline-block;
+        cursor: pointer;
+      }
+
+      .dot.active {
+        background-color: #717171;
+      }
+
+      @media screen and (max-width: 768px) {
+        .slider-container {
+          height: 300px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- First slider -->
+    <div id="Facade1" class="slider-container">
+      <div class="blurred-bg"></div>
+      <div class="slider __content"></div>
+      <div class="navigation">
+        <button class="prev">&#10094;</button>
+        <button class="next">&#10095;</button>
+      </div>
+      <div class="dots-container"></div>
+    </div>
+
+    <!-- Second slider -->
+    <div id="Facade2" class="slider-container">
+      <div class="blurred-bg"></div>
+      <div class="slider __content"></div>
+      <div class="navigation">
+        <button class="prev">&#10094;</button>
+        <button class="next">&#10095;</button>
+      </div>
+      <div class="dots-container"></div>
+    </div>
+
+    <script>
+      // Array of image paths for two sliders
+      const UptownModern_FacadeimagePaths1 = Array.from(
+        { length: 22 },
+        (_, i) => `./img/_9CentralPark/Facade/${i + 1}.webp`
+      );
+      const UptownModern_FacadeimagePaths2 = Array.from(
+        { length: 7 },
+        (_, i) => `./img/_9CentralPark/Floorplan/${i + 1}.webp`
+      );
+
+      // Generate slides for each container
+      generateSlides("Facade1", UptownModern_FacadeimagePaths1);
+      generateSlides("Facade2", UptownModern_FacadeimagePaths2);
+
+      function generateSlides(containerId, imagePaths) {
+        const container = document.getElementById(containerId);
+        const content = container.querySelector(".slider");
+        const dotsContainer = container.querySelector(".dots-container");
+        const blurBackground = container.querySelector(".blurred-bg");
+
+        let slideIndex = 0;
+
+        // Create slides and dots
+        imagePaths.forEach((path, index) => {
+          const slide = document.createElement("div");
+          slide.classList.add("slide");
+          slide.innerHTML = `<img src="${path}" alt="Slide ${index}" loading="lazy" />`;
+          content.appendChild(slide);
+
+          const dot = document.createElement("span");
+          dot.classList.add("dot");
+          dot.addEventListener("click", () => {
+            showSlide(index);
+          });
+          dotsContainer.appendChild(dot);
+        });
+
+        const slides = content.querySelectorAll(".slide");
+        const dots = dotsContainer.querySelectorAll(".dot");
+
+        // Function to show slide
+        const showSlide = (index) => {
+          slides.forEach((slide) => (slide.style.display = "none"));
+          dots.forEach((dot) => dot.classList.remove("active"));
+
+          slides[index].style.display = "block";
+          dots[index].classList.add("active");
+
+          // Update blurred background with the current slide image
+          blurBackground.style.backgroundImage = `url(${imagePaths[index]})`;
+
+          slideIndex = index;
+        };
+
+        // Function to show next slide
+        const nextSlide = () => {
+          slideIndex = (slideIndex + 1) % slides.length;
+          showSlide(slideIndex);
+        };
+
+        // Function to show previous slide
+        const prevSlide = () => {
+          slideIndex = (slideIndex - 1 + slides.length) % slides.length;
+          showSlide(slideIndex);
+        };
+
+        // Event listeners for next and previous buttons
+        container.querySelector(".prev").addEventListener("click", prevSlide);
+        container.querySelector(".next").addEventListener("click", nextSlide);
+
+        // Show first slide initially
+        showSlide(slideIndex);
+
+        // Auto slide every 5 seconds
+        let slideshowInterval = setInterval(nextSlide, 5000);
+
+        // Pause the slideshow on hover
+        container.addEventListener("mouseenter", () => {
+          clearInterval(slideshowInterval);
+        });
+
+        container.addEventListener("mouseleave", () => {
+          slideshowInterval = setInterval(nextSlide, 5000);
+        });
+      }
+    </script>
+  </body>
+</html>
